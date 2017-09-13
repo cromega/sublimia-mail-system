@@ -1,0 +1,20 @@
+myhostname = mail.sublimia.nl
+mynetworks = 127.0.0.1
+mydestination = $myhostname, localhost
+
+smtpd_tls_cert_file = /etc/ssl/private/star.sublimia.nl.pem
+smtpd_tls_CAfile = /etc/ssl/certs/stuff/
+smtpd_tls_CApath = /etc/ssl/certs/
+smtpd_tls_security_level = may
+
+broken_sasl_auth_clients = no
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
+
+virtual_mailbox_base = /var/mail
+virtual_mailbox_domains = sqlite:/etc/postfix/sqlite_domains.cf
+virtual_mailbox_maps = sqlite:/etc/postfix/sqlite_mailboxes.cf
+virtual_alias_maps = sqlite:/etc/postfix/sqlite_aliases.cf
+virtual_minimum_uid = 100
+virtual_uid_maps = static:5000
+virtual_gid_maps = static:5000

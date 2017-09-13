@@ -1,0 +1,2 @@
+dbpath = /etc/postfix/db.sqlite
+query = SELECT * FROM mailboxes WHERE address = '%s'
