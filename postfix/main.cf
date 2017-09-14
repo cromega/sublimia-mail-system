@@ -7,8 +7,10 @@ smtpd_tls_CAfile = /etc/ssl/certs/STAR_sublimia_nl.ca-bundle.pem
 smtpd_tls_CApath = /etc/ssl/certs/
 smtpd_tls_security_level = may
 
+smtpd_sasl_path = smtpd
 broken_sasl_auth_clients = no
 smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
 smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
 
 virtual_mailbox_base = /var/mail
