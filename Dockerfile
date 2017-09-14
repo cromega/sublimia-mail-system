@@ -1,5 +1,7 @@
 FROM debian:buster
 
+LABEL maintainer="crome@moronia.hu"
+
 ENV DEBIAN_FRONTEND noninteractive
 ENV INSTALL_PACKAGES "bash vim postfix postfix-sqlite sasl2-bin courier-imap sqlite3"
 ENV MAIL_DB_PATH /etc/postfix/mail.db
