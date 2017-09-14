@@ -1,5 +1,7 @@
 # The Subliminal Mail System
 
+**Massive work in progress**
+
 ## What is it?
 
 Really, it's just `postfix` and `courier-imap` packaged neatly in a container with `sqlite` as authentication/mailboxes backend.
