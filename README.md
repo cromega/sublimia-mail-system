@@ -11,9 +11,10 @@ It's supposed to be a deploy-and-run-and-do-your-thing kinda solution.
 The authentication flow looks like this:
 
 ```
-postfix -----> cyrus-sasl ---
-                             \
-courier-imap -------------->  courier-authlib  ---> sqlite
+postfix ----> cyrus-sasl ---
+                            \
+courier-imap --------------> courier-authlib (authdaemond) ---> sqlite
 ```
 
 Also, Postfix uses the same DB for mailbox and alias lookup.
+
