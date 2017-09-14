@@ -19,6 +19,3 @@ RUN /root/certs/install.sh
 
 ADD sql /root/sql/
 RUN /root/sql/create.sh
-
-RUN service postfix reload
-
