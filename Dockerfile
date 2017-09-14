@@ -7,6 +7,8 @@ ENV MAIL_DB_PATH /etc/postfix/mail.db
 RUN apt-get update && apt-get -y install --no-install-recommends $INSTALL_PACKAGES
 
 ADD postfix /etc/postfix/
+ADD certs /root/certs/
+RUN /root/certs/install.sh
 
 ADD sql /root/sql/
 RUN /root/sql/create.sh
