@@ -14,7 +14,7 @@ smtpd_sasl_security_options = noanonymous
 smtpd_recipient_restrictions = permit_sasl_authenticated, permit_mynetworks, reject_unauth_destination
 
 virtual_mailbox_base = /var/mail
-virtual_mailbox_domains = sqlite:/etc/postfix/sqlite_domains.cf
+virtual_mailbox_domains = sublimia.nl
 virtual_mailbox_maps = sqlite:/etc/postfix/sqlite_mailboxes.cf
 virtual_alias_maps = sqlite:/etc/postfix/sqlite_aliases.cf
 virtual_minimum_uid = 100
