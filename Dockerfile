@@ -11,6 +11,9 @@ RUN groupadd -g 5000 vmail && \
     useradd -d /var/mail -M -r -s /bin/false -u 5000 -g 5000 vmail && \
     chown -R vmail: /var/mail
 
+# TODO remove this stuff
+RUN apt-get install -y procps man file net-tools
+
 ADD postfix /etc/postfix/
 ADD sasl2 /etc/sasl2/
 
