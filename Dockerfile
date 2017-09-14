@@ -17,6 +17,9 @@ RUN apt-get install -y procps man file net-tools
 ADD postfix /etc/postfix/
 ADD sasl2 /etc/sasl2/
 
+ADD courier /etc/courier/
+RUN mkdir -p /run/courier/authdaemon
+
 ADD certs /root/certs/
 RUN /root/certs/install.sh
 
