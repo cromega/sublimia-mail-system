@@ -25,3 +25,5 @@ RUN /root/certs/install.sh
 
 ADD sql /root/sql/
 RUN /root/sql/create.sh
+
+ADD *.sh /
