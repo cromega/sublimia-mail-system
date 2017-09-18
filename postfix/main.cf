@@ -2,6 +2,8 @@ myhostname = mail.sublimia.nl
 mynetworks = 127.0.0.1
 mydestination = $myhostname, localhost
 
+compatibility_level = 2
+
 smtpd_tls_cert_file = /etc/ssl/private/star.sublimia.nl.pem
 smtpd_tls_CAfile = /etc/ssl/certs/STAR_sublimia_nl.ca-bundle.pem
 smtpd_tls_security_level = may
