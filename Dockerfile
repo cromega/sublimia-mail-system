@@ -12,7 +12,7 @@ RUN groupadd -g 5000 vmail && \
     chown -R vmail: /var/mail
 
 # TODO remove this stuff
-RUN apt-get install -y procps man file net-tools netcat tmux
+RUN apt-get install -y procps man file net-tools netcat tmux less strace
 
 ADD postfix /etc/postfix/
 ADD courier /etc/courier/
