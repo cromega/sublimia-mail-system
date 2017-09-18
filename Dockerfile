@@ -15,8 +15,6 @@ RUN groupadd -g 5000 vmail && \
 RUN apt-get install -y procps man file net-tools netcat tmux
 
 ADD postfix /etc/postfix/
-ADD sasl2 /etc/sasl2/
-
 ADD courier /etc/courier/
 RUN mkdir -p /run/courier/authdaemon
 
