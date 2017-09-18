@@ -21,7 +21,7 @@
 # The SQLite database. You must create this database beforehand, and create
 # the users table, as defined below.
 
-SQLITE_DATABASE		/etc/postfix/mail.db
+SQLITE_DATABASE		/etc/postfix/mail.db.sqlite
 
 ##NAME: SQLITE_USER_TABLE:0
 #
