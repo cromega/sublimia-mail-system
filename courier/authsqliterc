@@ -100,7 +100,7 @@ SQLITE_HOME_FIELD	"/var/mail"
 #
 # The user's name (optional)
 
-SQLITE_NAME_FIELD	name
+#SQLITE_NAME_FIELD	name
 
 ##NAME: SQLITE_MAILDIR_FIELD:0
 #
