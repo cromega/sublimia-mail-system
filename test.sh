@@ -11,4 +11,8 @@ sqlite3 "$MAIL_DB_PATH" 'INSERT INTO mailboxes VALUES ("test@test.com", "{SHA256
 
 (echo -e "EHLO test@test.com\r\nAUTH PLAIN dGVzdEB0ZXN0LmNvbQB0ZXN0QHRlc3QuY29tAHRlc3Q="; sleep 1) | openssl s_client -connect localhost:587 -starttls smtp 2>&1 | grep "235 2.7.0 Authentication successful"
 
+# IMAP TLS
+echo | openssl s_client -connect test.sublimia.nl:993 | grep "Verify return code: 0 (ok)"
+
+
 echo -e "\n\nALL OK\n\n"

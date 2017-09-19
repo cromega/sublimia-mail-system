@@ -22,10 +22,16 @@ Also, Postfix uses the same DB for mailbox and alias lookup.
 
 ### Postfix
 
-The idea for Postfix is to run 2 listeners.
+The idea for Postfix is to run 2 listeners:
 
-1. Port 25: For server2server traffic, this is how emails are delivered to the hosted domains. No authentication, optional TLS, only allows delivery to the hosted domains.
-1. Port 587: Email submission. Authentication via SASL, required TLS.
+1. Port 25: For server2server traffic, this is how emails are delivered to the hosted domains. No authentication, optional STARTTLS, only allows delivery to the hosted domains.
+1. Port 587: Email submission. Authentication via SASL, required TLS via STARTTLS.
+
+### Courier
+
+Courier is configured with 1 listener:
+
+1. Port 993: IMAPS over explicit TLS
 
 ## TODO
 
