@@ -111,7 +111,7 @@ SQLITE_HOME_FIELD	"/var/mail"
 # You still need to provide a SQLITE_HOME_FIELD, even if you uncomment this
 # out.
 #
-# SQLITE_MAILDIR_FIELD	maildir
+SQLITE_MAILDIR_FIELD	maildir
 
 ##NAME: SQLITE_DEFAULTDELIVERY:0
 #
