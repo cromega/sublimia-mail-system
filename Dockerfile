@@ -25,3 +25,4 @@ ADD sql /root/sql/
 RUN /root/sql/create.sh
 
 ADD scripts/ /
+ADD test /root/test/
