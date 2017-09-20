@@ -31,10 +31,15 @@ The idea for Postfix is to run 2 listeners:
 
 Courier is configured with 1 listener:
 
-1. Port 993: IMAPS over explicit TLS
+1. Port 993: IMAPS over explicit TLS (switch to STARTTLS or run both?)
+
+## Status
+
+* Postfix: delivery to virtual domain works & tested, aliases not tested.
+* Courier: problems with TLS, no tests
+* Monitoring: no startup script, no service monitor
+* Mailbox management: no solution for adding users to the mail DB yet.
 
 ## TODO
 
-1. Test mail delivery (and rejections)
-1. Add Courier-IMAP
-1. Monitor the processes and redirect the log files to the STDOUT of the container
+* Add proper tests, the current test script is shite.
