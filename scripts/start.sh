@@ -1,5 +1,6 @@
 #!/bin/bash
 
+rsyslogd
 postfix -c /etc/postfix start
 
 sleep 5

@@ -26,3 +26,5 @@ RUN /root/sql/create.sh
 
 ADD scripts/ /
 ADD test /root/test/
+
+CMD "/start.sh"
