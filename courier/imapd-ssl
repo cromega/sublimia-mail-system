@@ -242,7 +242,7 @@ COURIERTLS=/usr/bin/couriertls
 # In all cases, $TLS_CERTFILE needs to be linked to one of the existing
 # certificate files.
 
-TLS_CERTFILE=/etc/ssl/private/star.sublimia.nl.pem
+TLS_CERTFILE=/etc/ssl/private/star.sublimia.nl.full.pem
 
 ##NAME: TLS_DHPARAMS:0
 #
@@ -262,7 +262,7 @@ TLS_DHPARAMS=/etc/courier/dhparams.pem
 # to PEER or REQUIREPEER).
 #
 
-TLS_TRUSTCERTS=/etc/ssl/certs/STAR_sublimia_nl.ca-bundle.pem
+#TLS_TRUSTCERTS=
 
 ##NAME: TLS_VERIFYPEER:0
 #
