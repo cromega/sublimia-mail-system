@@ -125,7 +125,7 @@ describe "Subliminal Mail Container" do
         smtp.send_message(email, "testjoe@test.com", "test@test.com")
       end
 
-      sleep 3
+      sleep 1
 
       imap = Net::IMAP.new("localhost", port: 1430)
       imap.starttls({verify_mode: OpenSSL::SSL::VERIFY_NONE})
