@@ -32,12 +32,12 @@ check_port() {
 
   if [ $ret -ne 0 ]; then
     echo "connection to port $port failed, killing container"
-    exit 100
+    stop
   fi
 }
 
 stop() {
-  echo "container stopped, exiting."
+  echo "container stopping, exiting."
 
   postfix stop &
   dovecot stop
