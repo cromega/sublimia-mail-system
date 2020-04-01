@@ -26,8 +26,8 @@ describe "Subliminal Mail Container" do
       ]
     }
     @container = Docker::Container.create(container_opts)
-    @container.start
     @container.archive_in(["spec/fixtures/dhparams.pem"], "/etc/sublimia/")
+    @container.start
 
     set :os, family: :alpine
     set :backend, :docker
