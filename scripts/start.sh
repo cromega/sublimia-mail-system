@@ -24,7 +24,7 @@ create_domains() {
   echo $SUBLIMIA_MAIL_DOMAINS > /etc/sublimia/domains
 }
 
-check() {
+check_port() {
   local port=$1
 
   nc -z localhost $port
@@ -63,9 +63,9 @@ trap "die $pid" SIGTERM
 touch /.ready
 
 while true; do
-  check 25
-  check 143
-  check 587
+  check_port 25
+  check_port 143
+  check_port 587
 
   sleep 30
 done
