@@ -36,6 +36,15 @@ check() {
   fi
 }
 
+die() {
+  pid=$1
+  echo "container stopped, exiting."
+
+  postfix stop &
+  dovecot stop
+  exit 100
+}
+
 bootstrap
 create_domains
 create_user_db
@@ -44,9 +53,14 @@ rsyslogd
 dovecot -c /etc/sublimia/dovecot/dovecot.conf
 postfix -c /etc/sublimia/postfix start
 
-touch /.ready
+tail -F /var/log/mail.log &
 
-sleep 5
+pid=$$
+trap "die $pid" SIGINT
+trap "die $pid" SIGHUP
+trap "die $pid" SIGTERM
+
+touch /.ready
 
 while true; do
   check 25
