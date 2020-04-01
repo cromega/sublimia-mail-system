@@ -9,10 +9,8 @@ describe "Subliminal Mail Container" do
   before :all do
     puts "Starting container"
     image = Docker::Image.build_from_dir(".")
-    set :os, family: :alpine
-    set :backend, :docker
-    set :docker_image, image.id
-    set :docker_container_create_options, {
+    container_opts = {
+      Image: image.id,
       Entrypoint: ["bash", "-c", "/test.sh"],
       ExposedPorts: { "25/tcp" => {}, "143/tcp" => {}, "587/tcp" => {} },
       HostConfig: {
@@ -27,12 +25,24 @@ describe "Subliminal Mail Container" do
         "SUBLIMIA_MAIL_USER_1=test@test.com:test",
       ]
     }
+    @container = Docker::Container.create(container_opts)
+    @container.start
+    @container.archive_in(["spec/fixtures/dhparams.pem"], "/etc/sublimia/")
+
+    set :os, family: :alpine
+    set :backend, :docker
+    set :docker_container, @container.id
+  end
+
+  after :all do
+    @container.stop
+    @container.delete
   end
 
   before :context do
     puts "Waiting for container"
 
-    Timeout::timeout(30) do
+    Timeout::timeout(10) do
       command("while [ ! -f /.ready ]; do sleep 1; done").exit_status
     end
   end
