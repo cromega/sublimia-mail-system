@@ -4,7 +4,7 @@ bootstrap() {
   addgroup vmail
   chown -R vmail:vmail /var/mail
 
-  if [ ! -f /etc/sublimia/dhparams.pem ] ;then
+  if [ ! -f /etc/sublimia/dhparams.pem ]; then
     openssl dhparam 2048 > /etc/sublimia/dhparams.pem
   fi
 }
