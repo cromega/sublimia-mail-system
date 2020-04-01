@@ -36,8 +36,7 @@ check_port() {
   fi
 }
 
-die() {
-  pid=$1
+stop() {
   echo "container stopped, exiting."
 
   postfix stop &
@@ -55,10 +54,9 @@ postfix -c /etc/sublimia/postfix start
 
 tail -F /var/log/mail.log &
 
-pid=$$
-trap "die $pid" SIGINT
-trap "die $pid" SIGHUP
-trap "die $pid" SIGTERM
+trap stop SIGINT
+trap stop SIGHUP
+trap stop SIGTERM
 
 touch /.ready
 
