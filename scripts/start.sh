@@ -67,5 +67,5 @@ while true; do
   check_port 143
   check_port 587
 
-  sleep 30
+  sleep 5
 done
