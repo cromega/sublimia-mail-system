@@ -4,13 +4,8 @@ mydestination = $myhostname, localhost
 
 compatibility_level = 2
 
-smtpd_tls_cert_file = /etc/ssl/private/star.sublimia.nl.pem
-smtpd_tls_CAfile = /etc/ssl/certs/STAR_sublimia_nl.ca-bundle.pem
+smtpd_tls_cert_file = /etc/sublimia/cert.pem
+smtpd_tls_security_level = encrypt
 
-virtual_mailbox_base = /var/mail
-virtual_mailbox_domains = sublimia.nl
-virtual_mailbox_maps = sqlite:/etc/postfix/sqlite_mailboxes.cf
-virtual_alias_maps = sqlite:/etc/postfix/sqlite_aliases.cf
-virtual_minimum_uid = 100
-virtual_uid_maps = static:5000
-virtual_gid_maps = static:5000
+virtual_transport=lmtp:unix:private/dovecot-lmtp
+virtual_mailbox_domains = /etc/sublimia/domains

@@ -1,2 +1,0 @@
-dbpath = /etc/postfix/mail.db.sqlite
-query = SELECT * FROM aliases WHERE address = '%s'

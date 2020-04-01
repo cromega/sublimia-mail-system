@@ -1,21 +1,40 @@
 require "serverspec"
 require "docker"
+require "timeout"
+require "net/smtp"
+require "net/imap"
 require "pry"
 
 describe "Subliminal Mail Container" do
-
   before :all do
+    puts "Starting container"
     image = Docker::Image.build_from_dir(".")
-
-    set :os, family: :debian
+    set :os, family: :alpine
     set :backend, :docker
     set :docker_image, image.id
-
-    expect(command("sqlite3 $MAIL_DB_PATH 'INSERT INTO mailboxes VALUES (\"test@sublimia.nl\", \"{SHA256}n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\", \"sublimia.nl/test/\", CURRENT_TIMESTAMP, 5000, 5000);'").exit_status).to be 0
+    set :docker_container_create_options, {
+      Entrypoint: ["bash", "-c", "/test.sh"],
+      ExposedPorts: { "25/tcp" => {}, "143/tcp" => {}, "587/tcp" => {} },
+      HostConfig: {
+        PortBindings: {
+          "25/tcp" => [{ "HostPort" => "2500"}],
+          "143/tcp" => [{ "HostPort" => "1430"}],
+          "587/tcp" => [{ "HostPort" => "5870"}],
+        }
+      },
+      Env: [
+        "SUBLIMIA_MAIL_DOMAINS=test.com",
+        "SUBLIMIA_MAIL_USER_1=test@test.com:test",
+      ]
+    }
   end
 
-  before do
-    sleep 1
+  before :context do
+    puts "Waiting for container"
+
+    Timeout::timeout(30) do
+      command("while [ ! -f /.ready ]; do sleep 1; done").exit_status
+    end
   end
 
   describe "SMTP Service" do
@@ -27,33 +46,82 @@ describe "Subliminal Mail Container" do
       expect(port(587)).to be_listening
     end
 
-    it "has the certificates configured a-ok" do
-      expect(command("echo quit | openssl s_client -connect localhost:25 -starttls smtp").stdout).to include "Verify return code: 0 (ok)"
+    it "does starttls" do
+      Net::SMTP.start("localhost", 5870) do |smtp|
+        expect(smtp).to be_capable_starttls
+      end
     end
 
-    it "delivers an email to maildir" do
-      expect(command("sendmail -F test@test.com test@sublimia.nl < /root/test/test.mail").exit_status).to eq 0
-      expect(file("/var/log/mail.log").content).to match(/test@sublimia.nl.*delivered to maildir/)
+    it "does not support auth before starttls" do
+      Net::SMTP.start("localhost", 5870) do |smtp|
+        expect(smtp).to_not be_capable_plain_auth
+      end
+    end
+
+    it "supports plain auth after starttls" do
+      client = Net::SMTP.new("localhost", 5870)
+      client.enable_starttls
+      client.start("helo") do |smtp|
+        expect(smtp).to be_capable_plain_auth
+      end
     end
 
     it "authenticates a client" do
-      expect(command("(echo -e \"EHLO test@test.com\r\nAUTH PLAIN dGVzdEBzdWJsaW1pYS5ubAB0ZXN0QHN1YmxpbWlhLm5sAHRlc3Q=\"; sleep 1) | openssl s_client -connect localhost:587 -starttls smtp").stdout).to include "235 2.7.0 Authentication successful"
+      client = Net::SMTP.new("localhost", 5870)
+      client.enable_starttls
+      client.start("helo") do |smtp|
+        expect(smtp.auth_plain("test@test.com", "test")).to be_success
+      end
     end
   end
 
   describe "IMAP service" do
-    it "listens on port 993" do
-      expect(port(993)).to be_listening
+    it "listens on port 143" do
+      expect(port(143)).to be_listening
     end
 
-    it "has the certificates configured a-ok" do
-      expect(command("echo quit | openssl s_client -connect localhost:993").stdout).to include "Verify return code: 0 (ok)"
+    it "does starttls" do
+      imap = Net::IMAP.new("localhost", port: 1430)
+      expect(imap.capability).to include "STARTTLS"
+    end
+
+    it "does not support auth before starttls" do
+      imap = Net::IMAP.new("localhost", port: 1430)
+      expect(imap.capability).to include "LOGINDISABLED"
+    end
+
+    it "supports plain auth after starttls" do
+      imap = Net::IMAP.new("localhost", port: 1430)
+      imap.starttls({verify_mode: OpenSSL::SSL::VERIFY_NONE})
+      expect(imap.capability).to include "AUTH=PLAIN"
+    end
+
+    it "authenticates a client" do
+      imap = Net::IMAP.new("localhost", port: 1430)
+      imap.starttls({verify_mode: OpenSSL::SSL::VERIFY_NONE})
+      expect {
+        imap.authenticate("PLAIN", "test@test.com", "test")
+      }.to_not raise_error
     end
   end
 
-  describe "Authentication service" do
-    it "authenticates a user" do
-      expect(command("authtest test@sublimia.nl test").exit_status).to eq 0
+  describe "Mail delivery" do
+    let(:email) { File.read("spec/fixtures/email.txt") }
+
+    it "works" do
+      client = Net::SMTP.new("localhost", 2500)
+      client.enable_starttls
+      client.start("helo") do |smtp|
+        smtp.send_message(email, "testjoe@test.com", "test@test.com")
+      end
+
+      sleep 3
+
+      imap = Net::IMAP.new("localhost", port: 1430)
+      imap.starttls({verify_mode: OpenSSL::SSL::VERIFY_NONE})
+      imap.authenticate("PLAIN", "test@test.com", "test")
+      imap.select("INBOX")
+      expect(imap.search(["SUBJECT", "Test"])).to eq [1]
     end
   end
 end
