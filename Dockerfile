@@ -4,9 +4,13 @@ LABEL maintainer="crome@moronia.hu"
 
 RUN apk add --no-cache bash postfix rsyslog dovecot dovecot-lmtpd shadow openssl ca-certificates
 
-ADD postfix /etc/sublimia/postfix/
-ADD dovecot /etc/sublimia/dovecot/
+COPY postfix /etc/sublimia/postfix/
+COPY dovecot /etc/sublimia/dovecot/
+COPY scripts/ /
 
-ADD scripts/ /
+RUN addgroup vmail && \
+    mkdir -p /var/vmail && \
+    chown -R vmail:vmail /var/vmail
+
 
 CMD ["bash", "-c", "/start.sh"]
