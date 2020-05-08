@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+service=$1
+
 gen_dh() {
   if [ ! -f /etc/sublimia/dhparams.pem ]; then
     openssl dhparam 2048 > /etc/sublimia/dhparams.pem
@@ -21,6 +23,45 @@ create_user_db() {
   done
 }
 
+stop() {
+  case $service in
+    postfix)
+      postfix stop
+      ;;
+    dovecot)
+      dovecot stop
+      ;;
+    *)
+      echo service=$service. wtf.
+      exit 1
+  esac
+}
+
+
 gen_dh
 create_domains
 create_user_db
+
+rsyslogd
+
+tail -F /var/log/mail.log &
+
+case $service in
+  postfix)
+    postfix -c /etc/sublimia/postfix start
+    ;;
+  dovecot)
+    dovecot -c /etc/sublimia/dovecot/dovecot.conf
+    ;;
+  *)
+    echo service=$service. wtf.
+    exit 1
+esac
+
+trap stop SIGINT
+trap stop SIGHUP
+trap stop SIGTERM
+
+while true; do
+  sleep 1
+done
