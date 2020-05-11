@@ -4,7 +4,8 @@ mydestination = $myhostname, localhost
 
 compatibility_level = 2
 
-smtpd_tls_cert_file = /etc/sublimia/cert.pem
+smtpd_tls_cert_file = /etc/sublimia/ssl/tls.crt
+smtpd_tls_key_file = /etc/sublimia/ssl/tls.key
 smtpd_tls_dh1024_param_file = /etc/sublimia/dhparams.pem
 smtpd_tls_security_level = encrypt
 
