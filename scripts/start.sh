@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 service=$1
+RUNNING=true
 
 gen_dh() {
   if [ ! -f /etc/sublimia/dhparams.pem ]; then
@@ -33,10 +34,10 @@ stop() {
       ;;
     *)
       echo service=$service. wtf.
-      exit 1
   esac
-}
 
+  RUNNING=false
+}
 
 gen_dh
 create_domains
@@ -64,6 +65,6 @@ trap stop SIGINT
 trap stop SIGHUP
 trap stop SIGTERM
 
-while true; do
+while $RUNNING; do
   sleep 1
 done
