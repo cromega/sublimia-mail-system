@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-system-dovecot-imap
+  labels:
+    app: mail-system
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 143
+      targetPort: 143
+      protocol: TCP
+      name: imap
+  selector:
+    service: mail-system-dovecot
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-system-dovecot-lmtp
+  labels:
+    app: mail-system
+spec:
+  type: ClusterIP
+  ports:
+    - port: 24
+      targetPort: 24
+      protocol: TCP
+      name: lmtp
+  selector:
+    service: mail-system-dovecot
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-system-dovecot-auth
+  labels:
+    app: mail-system
+spec:
+  type: ClusterIP
+  ports:
+    - port: 26
+      targetPort: 26
+      protocol: TCP
+      name: auth
+  selector:
+    service: mail-system-dovecot

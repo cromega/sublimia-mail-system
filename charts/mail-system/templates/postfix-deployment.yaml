@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-system-postfix
+  labels:
+    app: mail-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mail-system
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app: mail-system
+        service: mail-system-postfix
+    spec:
+      containers:
+        - name: postfix
+          image: cromega/mail-system:latest
+          imagePullPolicy: Always
+          command: ["/start.sh", "postfix"]
+          ports:
+            - name: smtp
+              containerPort: 25
+              protocol: TCP
+            - name: submission
+              containerPort: 587
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /check.sh
+                - "25 587"
+          readinessProbe:
+            exec:
+              command:
+                - /check.sh
+                - "25 587"
+          volumeMounts:
+            - name: tls-cert
+              mountPath: /etc/sublimia/ssl/
+              readOnly: true
+      volumes:
+        - name: tls-cert
+          secret:
+            secretName: wildcard-certificate

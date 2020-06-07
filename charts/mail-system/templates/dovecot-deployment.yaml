@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-system-dovecot
+  labels:
+    app: mail-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mail-system
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app: mail-system
+        service: mail-system-dovecot
+    spec:
+      containers:
+        - name: dovecot
+          image: cromega/mail-system:latest
+          imagePullPolicy: Always
+          command: ["/start.sh", "dovecot"]
+          env:
+            - name: SUBLIMIA_MAIL_DOMAINS
+              value: sublimia.nl
+            - name: SUBLIMIA_MAIL_USER_1
+              value: test@sublimia.nl:test
+          ports:
+            - name: imap
+              containerPort: 143
+              protocol: TCP
+            - name: lmtp
+              containerPort: 24
+              protocol: TCP
+            - name: auth
+              containerPort: 26
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - /check.sh
+                - "143"
+          readinessProbe:
+            exec:
+              command:
+                - /check.sh
+                - "143"
+          volumeMounts:
+            - name: tls-cert
+              mountPath: /etc/sublimia/ssl/
+              readOnly: true
+            - name: storage
+              mountPath: /var/mail
+      volumes:
+        - name: tls-cert
+          secret:
+            secretName: wildcard-certificate
+        - name: storage
+          nfs:
+            server: {{ .Values.storage_nfs_url }}
+            path: /
+
