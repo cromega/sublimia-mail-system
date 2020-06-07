@@ -9,8 +9,7 @@ COPY dovecot /etc/sublimia/dovecot/
 COPY scripts/ /
 
 RUN addgroup vmail && \
-    mkdir -p /var/vmail && \
-    chown -R vmail:vmail /var/vmail
+    mkdir -p /var/vmail
 
 
 CMD ["bash", "-c", "/start.sh"]
