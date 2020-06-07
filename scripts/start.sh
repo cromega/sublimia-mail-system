@@ -43,7 +43,7 @@ gen_dh
 create_domains
 create_user_db
 
-chown -R vmail:vmail /var/vmail
+chown -R vmail:vmail /var/mail
 
 rsyslogd
 
