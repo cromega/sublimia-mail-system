@@ -20,7 +20,7 @@ create_user_db() {
   env | grep SUBLIMIA_MAIL_USER | while read user; do
     local user=$(echo $user | cut -d= -f2 | tr ":" " ")
     read name pw <<< $(echo $user)
-    echo "$name:$(mkpasswd $pw):vmail:$gid::::" >> /etc/sublimia/mailboxes
+    echo "$name:$pw:vmail:$gid::::" >> /etc/sublimia/mailboxes
   done
 }
 
