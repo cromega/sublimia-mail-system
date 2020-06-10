@@ -24,8 +24,10 @@ spec:
           env:
             - name: SUBLIMIA_MAIL_DOMAINS
               value: sublimia.nl
-            - name: SUBLIMIA_MAIL_USER_1
-              value: test@sublimia.nl:test
+            {{- range $i, $name := .Values.mailboxes }}
+            - name: SUBLIMIA_MAIL_USER_{{ $i }}
+              value: {{ $name }}
+            {{- end }}
           ports:
             - name: imap
               containerPort: 143
