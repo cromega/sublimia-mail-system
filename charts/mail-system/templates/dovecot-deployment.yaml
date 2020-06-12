@@ -43,11 +43,13 @@ spec:
               command:
                 - /check.sh
                 - "143"
+            initialDelaySeconds: 30
           readinessProbe:
             exec:
               command:
                 - /check.sh
                 - "143"
+            initialDelaySeconds: 30
           volumeMounts:
             - name: tls-cert
               mountPath: /etc/sublimia/ssl/
