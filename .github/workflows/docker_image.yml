@@ -30,4 +30,6 @@ jobs:
       run: |
         curl -X POST \
           -H "Authorization: token $TOKEN" \
-          https://api.github.com/repos/cromega/sublimia-platform/dispatches
+          https://api.github.com/repos/cromega/sublimia-platform/dispatches \
+          --data '{"event_type":"deploy:mail-system"}'
+
