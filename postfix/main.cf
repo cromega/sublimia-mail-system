@@ -3,6 +3,7 @@ mynetworks = 127.0.0.1
 mydestination = $myhostname, localhost
 
 compatibility_level = 2
+smtp_address_preference = ipv4
 
 smtpd_tls_cert_file = /etc/sublimia/ssl/tls.crt
 smtpd_tls_key_file = /etc/sublimia/ssl/tls.key
