@@ -11,7 +11,8 @@ spec:
       app: mail-system
   template:
     metadata:
-      annotations: {}
+      annotations:
+        deployedAt: "{{ date "20060102150405" .Release.Time }}"
       labels:
         app: mail-system
         service: mail-system-postfix
