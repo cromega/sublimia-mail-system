@@ -51,6 +51,8 @@ tail -F /var/log/mail.log &
 
 case $service in
   postfix)
+    sed -i "/\$LMTP_HOSTNAME/$MAIL_SYSTEM_DOVECOT_LMTP_SERVICE_HOST/" /etc/sublimia/postfix/main.cf
+    sed -i "/\$AUTH_HOSTNAME/$MAIL_SYSTEM_DOVECOT_AUTH_SERVICE_HOST/" /etc/sublimia/postfix/master.cf
     postfix -c /etc/sublimia/postfix start
     ;;
   dovecot)
