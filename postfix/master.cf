@@ -1,6 +1,6 @@
 smtp      inet  n       -       n       -       -       smtpd
   -o syslog_name=postfix/smtp
-  -o smtpd_recipient_restrictions=permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject_unauth_destination
 submission inet n       -       n       -       -       smtpd
   -o syslog_name=postfix/submission
   -o smtpd_tls_auth_only=yes

@@ -21,6 +21,9 @@ spec:
           image: cromega/mail-system:latest
           imagePullPolicy: Always
           command: ["/start.sh", "postfix"]
+          env:
+            - name: SUBLIMIA_MAIL_DOMAINS
+              value: sublimia.nl
           ports:
             - name: smtp
               containerPort: 25

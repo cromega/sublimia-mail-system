@@ -4,11 +4,11 @@ mydestination = $myhostname, localhost
 
 compatibility_level = 2
 smtp_address_preference = ipv4
-
 smtpd_tls_cert_file = /etc/sublimia/ssl/tls.crt
 smtpd_tls_key_file = /etc/sublimia/ssl/tls.key
 smtpd_tls_dh1024_param_file = /etc/sublimia/dhparams.pem
 smtpd_tls_security_level = encrypt
 
-virtual_transport=lmtp:tcp:mail-system-dovecot-lmtp:24
+lmtp_address_preference = ipv4
+virtual_transport=lmtp:mail-system-dovecot-lmtp:24
 virtual_mailbox_domains = /etc/sublimia/domains
