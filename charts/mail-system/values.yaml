@@ -18,6 +18,7 @@ mailboxes:
   - foo@bar.baz:salted-sha512-pwhash
 
 storage_nfs_url: ""
+smtp_relay_config: ""
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

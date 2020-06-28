@@ -2,7 +2,7 @@ FROM alpine:3.12
 
 LABEL maintainer="crome@moronia.hu"
 
-RUN apk add --no-cache bash postfix rsyslog dovecot dovecot-lmtpd shadow openssl ca-certificates
+RUN apk add --no-cache bash postfix cyrus-sasl-plain rsyslog dovecot dovecot-lmtpd shadow openssl ca-certificates
 
 COPY postfix /etc/sublimia/postfix/
 COPY dovecot /etc/sublimia/dovecot/

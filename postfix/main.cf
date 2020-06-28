@@ -2,6 +2,13 @@ myhostname = mail.sublimia.nl
 mynetworks = 127.0.0.1
 mydestination = $myhostname, localhost
 
+relayhost = [email-smtp.eu-west-1.amazonaws.com]:587
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/sublimia/postfix/smtp_auth
+smtp_use_tls = yes
+smtp_tls_note_starttls_offer = yes
+
 compatibility_level = 2
 smtp_address_preference = ipv4
 smtpd_tls_cert_file = /etc/sublimia/ssl/tls.crt

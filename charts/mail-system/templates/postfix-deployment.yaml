@@ -25,6 +25,8 @@ spec:
           env:
             - name: SUBLIMIA_MAIL_DOMAINS
               value: sublimia.nl
+            - name: SMTP_RELAY_CONFIG
+              value: "{{ .Values.smtp_relay_config }}"
           ports:
             - name: smtp
               containerPort: 25

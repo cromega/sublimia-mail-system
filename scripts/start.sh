@@ -53,6 +53,9 @@ case $service in
   postfix)
     sed -i "s/\$LMTP_HOSTNAME/$MAIL_SYSTEM_DOVECOT_LMTP_SERVICE_HOST/" /etc/sublimia/postfix/main.cf
     sed -i "s/\$AUTH_HOSTNAME/$MAIL_SYSTEM_DOVECOT_AUTH_SERVICE_HOST/" /etc/sublimia/postfix/master.cf
+    echo "$SMTP_RELAY_CONFIG" > /etc/sublimia/postfix/smtp_auth
+    postmap /etc/sublimia/postfix/smtp_auth
+
     postfix -c /etc/sublimia/postfix start
     ;;
   dovecot)
