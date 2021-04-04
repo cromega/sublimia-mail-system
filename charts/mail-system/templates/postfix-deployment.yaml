@@ -17,6 +17,7 @@ spec:
         app: mail-system
         service: mail-system-postfix
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: postfix
           image: cromega/mail-system:latest
