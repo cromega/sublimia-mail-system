@@ -28,7 +28,7 @@ spec:
               value: sublimia.nl
             {{- range $i, $name := .Values.mailboxes }}
             - name: SUBLIMIA_MAIL_USER_{{ $i }}
-              value: {{ $name }}
+              value: "{{ $name }}"
             {{- end }}
           ports:
             - name: imap
@@ -44,14 +44,21 @@ spec:
             exec:
               command:
                 - /check.sh
-                - "24 26 143"
+                - "143"
             initialDelaySeconds: 30
           readinessProbe:
             exec:
               command:
                 - /check.sh
-                - "24 26 143"
+                - "143"
             initialDelaySeconds: 30
+          startupProbe:
+            exec:
+              command:
+                - /check.sh
+                - "143"
+            failureThreshold: 30
+            periodSeconds: 10
           volumeMounts:
             - name: tls-cert
               mountPath: /etc/sublimia/ssl/
