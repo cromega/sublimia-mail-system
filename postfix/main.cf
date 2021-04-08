@@ -5,7 +5,7 @@ mydestination = $myhostname, localhost
 relayhost = [email-smtp.eu-west-1.amazonaws.com]:587
 smtp_sasl_auth_enable = yes
 smtp_sasl_security_options = noanonymous
-smtp_sasl_password_maps = hash:/etc/sublimia/postfix/smtp_auth
+smtp_sasl_password_maps = lmdb:/etc/sublimia/postfix/smtp_auth
 smtp_tls_security_level = encrypt
 smtp_tls_note_starttls_offer = yes
 
