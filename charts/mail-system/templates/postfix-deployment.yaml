@@ -41,12 +41,6 @@ spec:
                 - /check.sh
                 - "25 587"
             initialDelaySeconds: 30
-          readinessProbe:
-            exec:
-              command:
-                - /check.sh
-                - "25 587"
-            initialDelaySeconds: 30
           startupProbe:
             exec:
               command:
