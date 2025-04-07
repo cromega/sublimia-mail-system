@@ -46,6 +46,7 @@ create_user_db
 chown -R vmail:vmail /var/mail
 
 rsyslogd
+crond &
 
 tail -F /var/log/mail.log &
 
